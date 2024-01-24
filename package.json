@@ -1,0 +1,40 @@
+{
+  "name": "partykit-nextjs-chat-template",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:partykit\" \"npm run dev:next\" --kill-others",
+    "dev:next": "next dev",
+    "dev:partykit": "partykit dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@syncedstore/core": "^0.5.2",
+    "@syncedstore/react": "^0.5.2",
+    "@types/node": "20.8.5",
+    "@types/react": "18.2.28",
+    "@types/react-dom": "18.2.13",
+    "ai": "^2.2.15",
+    "autoprefixer": "10.4.16",
+    "eslint": "8.51.0",
+    "eslint-config-next": "13.5.4",
+    "nanoid": "^5.0.1",
+    "next": "13.5.4",
+    "next-auth": "^4.23.2",
+    "openai-edge": "^1.2.2",
+    "partykit": "^0.0.32",
+    "partysocket": "^0.0.12",
+    "postcss": "8.4.31",
+    "random-word-slugs": "^0.1.7",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwindcss": "3.3.3",
+    "typescript": "5.2.2",
+    "y-partykit": "^0.0.9"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.1"
+  }
+}
