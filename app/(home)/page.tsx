@@ -11,7 +11,7 @@ export default function Home() {
     <div className="w-full flex flex-col gap-8">
       <section className="bg-yellow-100 w-full p-2 rounded flex justify-center items-center text-xl">
         <p>
-          <strong>{count}</strong> potential roommate online!{count != 1 ? "s" : ""} 🥳
+          <strong>{count}</strong> potential roommate{count != 1 ? "s" : ""} online! 🥳
         </p>
       </section>
 
@@ -28,9 +28,9 @@ export default function Home() {
         </p> */}
       </section>
 
-      <Link href="/chat" className="underline">
+      <Link href="/chat">
         <button className="flex items-center justify-center px-10 py-6 border border-stone-200 rounded-lg shadow hover:shadow-md">
-          HOP IN -&gt;
+          Hop In -&gt;
         </button>
       </Link>
     </div>
