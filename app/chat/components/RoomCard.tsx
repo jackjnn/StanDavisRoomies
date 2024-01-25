@@ -4,6 +4,10 @@ import Avatar from "@/app/components/Avatar";
 
 export default function RoomCard(props: { room: RoomInfo }) {
   const { room } = props;
+
+  // Log the image URL to the console
+  console.log(`Room ID: ${room.id}, Image URL: ${room.image}`);
+  
   return (
     <li className="col-span-1 divide-y divide-stone-200">
       <Link href={`/chat/${room.id}`}>
@@ -24,7 +28,7 @@ export default function RoomCard(props: { room: RoomInfo }) {
               </span>
             </span>
           </div>
-          
+
           <div className="p-4 sm:p-6">
             <span className="flex flex-reverse row -space-x-2">
               {room.users?.map((u) => (
