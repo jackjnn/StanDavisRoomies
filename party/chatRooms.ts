@@ -83,7 +83,7 @@ export default class ChatRoomsServer implements Party.Server {
   async getActiveRooms(): Promise<RoomInfo[]> {
     // Hardcoded list of rooms
     return [
-      { id: 'Ocean View 3 Bed Apartment in Brickell', connections: 0, users: [], image: '/apa1.jpeg' },
+      { id: 'Ocean View 3 Bed Apartment in Brickell', connections: 0, users: [], image: '/logo.png' },
       { id: 'City View 3 Bed Apartment in Downtown', connections: 0, users: [], image: '/apa2.jpeg'  },
       { id: 'City View 3 Bed Apartment in Edgewater', connections: 0, users: [], image: '/apa3.jpeg'  },
       { id: 'City View 3 Bed Apartment in Brickell', connections: 0, users: [], image: '/apa4.jpeg'  },
