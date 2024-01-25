@@ -24,6 +24,7 @@ export default function RoomCard(props: { room: RoomInfo }) {
               </span>
             </span>
           </div>
+          
           <div className="p-4 sm:p-6">
             <span className="flex flex-reverse row -space-x-2">
               {room.users?.map((u) => (
