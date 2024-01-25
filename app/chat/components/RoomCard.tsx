@@ -7,7 +7,8 @@ export default function RoomCard(props: { room: RoomInfo }) {
 
   // Log the image URL to the console
   console.log(`Room ID: ${room.id}, Image URL: ${room.image}`);
-  
+  console.log("hello world")
+
   return (
     <li className="col-span-1 divide-y divide-stone-200">
       <Link href={`/chat/${room.id}`}>
