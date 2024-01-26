@@ -13,7 +13,8 @@ export default function RoomCard(props: { room: RoomInfo }) {
     <li className="col-span-1 divide-y divide-stone-200">
       <Link href={`/chat/${room.id}`}>
         <div className="rounded-lg bg-white outline outline-1 outline-stone-200 shadow hover:shadow-md">
-          <div className="w-full bg-cover bg-center h-40" style={{ backgroundImage: `url(${room.image})` }}>
+          <div className="w-full bg-cover bg-center h-40" 
+          style={{ backgroundImage: `url(${room.image})` }}>
             {/* Image will be displayed here */}
           </div>
           <div className="flex w-full items-start justify-between p-4 sm:p-6 space-x-4 sm:space-x-6">
@@ -43,7 +44,7 @@ export default function RoomCard(props: { room: RoomInfo }) {
             </span>
           </div>
           <div className="flex w-full items-center justify-center p-4 sm:p-6 space-x-4 sm:space-x-6 border-t border-stone-200">
-            Join -&gt;
+            Enter -&gt;
           </div>
         </div>
       </Link>
