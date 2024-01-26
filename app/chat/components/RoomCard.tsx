@@ -6,8 +6,8 @@ export default function RoomCard(props: { room: RoomInfo }) {
   const { room } = props;
 
   // Log the image URL to the console
-  console.log("hello world")
-  console.log(`Room ID: ${room.id}, Image URL: ${room.image}`);
+  // console.log("hello world")
+  // console.log(`Room ID: ${room.id}, Image URL: ${room.image}`);
 
   return (
     <li className="col-span-1 divide-y divide-stone-200">

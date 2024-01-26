@@ -74,23 +74,23 @@ export default class ChatRoomsServer implements Party.Server {
     return notFound();
   }
   /** Fetches list of active rooms */
-  // async getActiveRooms(): Promise<RoomInfo[]> {
-  //   const rooms = await this.party.storage.list<RoomInfo>();
-  //   return [...rooms.values()];
-  // }
+  async getActiveRooms(): Promise<RoomInfo[]> {
+    const rooms = await this.party.storage.list<RoomInfo>();
+    return [...rooms.values()];
+  }
 
   /** Fetches list of active rooms */
-  async getActiveRooms(): Promise<RoomInfo[]> {
-    // Hardcoded list of rooms
-    return [
-      { id: 'Ocean View 3 Bed Apartment in Brickell', connections: 0, users: [], image: '' },
-      { id: 'City View 3 Bed Apartment in Downtown', connections: 0, users: []  },
-      // { id: 'City View 3 Bed Apartment in Edgewater', connections: 0, users: [], image: '/apa3.jpeg'  },
-      // { id: 'City View 3 Bed Apartment in Brickell', connections: 0, users: [], image: '/apa4.jpeg'  },
-      // { id: 'Ocean View 3 Bed Apartment in Miami Beach', connections: 0, users: [], image: '/apa5.jpeg'  },
-      // Add more rooms as needed
-    ];
-  }
+  // async getActiveRooms(): Promise<RoomInfo[]> {
+  //   // Hardcoded list of rooms
+  //   return [
+  //     { id: 'Ocean View 3 Bed Apartment in Brickell', connections: 0, users: [], image: '/apa1.jpeg' },
+  //     { id: 'City View 3 Bed Apartment in Downtown', connections: 0, users: [], image: '/apa3.jpeg'  },
+  //     { id: 'City View 3 Bed Apartment in Edgewater', connections: 0, users: [], image: '/apa2.jpeg'  },
+  //     { id: 'City View 3 Bed Apartment in Brickell', connections: 0, users: [], image: '/apa4.jpeg'  },
+  //     { id: 'Ocean View 3 Bed Apartment in Miami Beach', connections: 0, users: [], image: '/apa5.jpeg'  },
+  //     // Add more rooms as needed
+  //   ];
+  // }
 
   /** Updates list of active rooms with information received from chatroom */
   async updateRoomInfo(req: Party.Request) {
