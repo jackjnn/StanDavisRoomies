@@ -20,7 +20,7 @@ export default function PresenceBar(props: { roomId: string }) {
     },
   });
 
-  if (!room) return;
+  if (!room) return null;
 
   return (
     <div className="flex flex-reverse row -space-x-2">
