@@ -18,7 +18,10 @@ export const RoomList: React.FC<{ initialRooms: RoomInfo[] }> = ({
     party: "chatrooms",
     room: SINGLETON_ROOM_ID,
     onMessage(event: MessageEvent<string>) {
-      setRooms(JSON.parse(event.data) as RoomInfo[]);
+      // setRooms(JSON.parse(event.data) as RoomInfo[]);
+      const parsedData = JSON.parse(event.data) as RoomInfo[];
+      console.log("WebSocket DEBUG: Message received", parsedData);
+      setRooms(parsedData);
     },
   });
 
