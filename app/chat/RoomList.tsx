@@ -17,6 +17,15 @@ export const RoomList: React.FC<{ initialRooms: RoomInfo[] }> = ({
     host: PARTYKIT_HOST,
     party: "chatrooms",
     room: SINGLETON_ROOM_ID,
+    onOpen: () => {
+      console.log("WebSocket DEBUG: Connection opened");
+    },
+    onClose: () => {
+      console.log("WebSocket DEBUG: Connection closed");
+    },
+    onError: (error: Event) => {
+      console.error("WebSocket DEBUG: Connection error", error);
+    },
     onMessage(event: MessageEvent<string>) {
       // setRooms(JSON.parse(event.data) as RoomInfo[]);
       const parsedData = JSON.parse(event.data) as RoomInfo[];
