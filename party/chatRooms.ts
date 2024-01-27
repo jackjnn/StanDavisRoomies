@@ -48,6 +48,7 @@ export default class ChatRoomsServer implements Party.Server {
   async onConnect(connection: Party.Connection) {
     // when a websocket connection is established, send them a list of rooms
     // connection.send(JSON.stringify(await this.getActiveRooms()));
+    console.log("DEBUG: onConnect called, getting active rooms...");
     const activeRooms = await this.getActiveRooms();
     console.log("DEBUG Sending active rooms data:", activeRooms);
     connection.send(JSON.stringify(activeRooms));
@@ -108,8 +109,6 @@ export default class ChatRoomsServer implements Party.Server {
       return this.getActiveRooms();
     }
 
-    console.log("DEBUG After update:", await this.getActiveRooms());
-
     const persistedInfo = await this.party.storage.get<RoomInfo>(update.id);
     if (!persistedInfo && update.action === "leave") {
       return this.getActiveRooms();
@@ -144,6 +143,9 @@ export default class ChatRoomsServer implements Party.Server {
     }
 
     await this.party.storage.put(update.id, info);
+
+    console.log("DEBUG After update:", await this.getActiveRooms());
+
     return this.getActiveRooms();
   }
 }
