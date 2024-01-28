@@ -58,6 +58,7 @@ export default class ChatRoomsServer implements Party.Server {
     try {
       console.log("DEBUG: onConnect called");
       const rooms = await this.getActiveRooms();
+      console.log("DEBUG: Rooms data to be sent", rooms);
       connection.send(JSON.stringify(rooms));
       console.log("DEBUG: Rooms data sent");
     } catch (error) {
