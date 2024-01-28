@@ -43,7 +43,9 @@ export default class ChatRoomsServer implements Party.Server {
     // allows for a higher number of concurrent connections
   };
 
-  constructor(public party: Party.Party) {}
+  constructor(public party: Party.Party) {
+    console.log("DEBUG: ChatRoomsServer started");
+  }
 
   // async onConnect(connection: Party.Connection) {
   //   // when a websocket connection is established, send them a list of rooms
