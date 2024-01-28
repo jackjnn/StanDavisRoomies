@@ -56,17 +56,15 @@ export default class ChatRoomsServer implements Party.Server {
 
   async onConnect(connection: Party.Connection) {
     try {
-      console.log("DEBUG: onConnect called");
-  
       // Send a simple static message to test basic WebSocket functionality.
-      const testMessage = { message: "Hello from the server!" };
-      connection.send(JSON.stringify(testMessage));
-  
+      console.log("DEBUG: onConnect called");
+      const simpleMessage = { type: "test", content: "Hello from the server!" };
+      connection.send(JSON.stringify(simpleMessage));
       console.log("DEBUG: Test message sent");
     } catch (error) {
       console.error("DEBUG: Error in onConnect method", error);
     }
-  }   
+  }
 
   async onRequest(req: Party.Request) {
     // we only allow one instance of chatRooms party
