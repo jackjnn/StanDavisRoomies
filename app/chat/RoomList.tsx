@@ -35,6 +35,7 @@ export const RoomList: React.FC<{ initialRooms: RoomInfo[] }> = ({
     // },
 
     onMessage(event: MessageEvent<string>) {
+      console.log("WebSocket DEBUG: Raw message data", event.data);
       try {
         console.log("WebSocket DEBUG: Message received", event);
         const parsedData = JSON.parse(event.data);
