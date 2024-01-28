@@ -45,14 +45,20 @@ export default class ChatRoomsServer implements Party.Server {
 
   constructor(public party: Party.Party) {}
 
+  // async onConnect(connection: Party.Connection) {
+  //   // when a websocket connection is established, send them a list of rooms
+  //   // connection.send(JSON.stringify(await this.getActiveRooms()));
+  //   console.log("DEBUG: onConnect called, getting active rooms...");
+  //   const activeRooms = await this.getActiveRooms();
+  //   console.log("DEBUG Sending active rooms data:", activeRooms);
+  //   connection.send(JSON.stringify(activeRooms));
+  // }
+
   async onConnect(connection: Party.Connection) {
-    // when a websocket connection is established, send them a list of rooms
-    // connection.send(JSON.stringify(await this.getActiveRooms()));
-    console.log("DEBUG: onConnect called, getting active rooms...");
-    const activeRooms = await this.getActiveRooms();
-    console.log("DEBUG Sending active rooms data:", activeRooms);
-    connection.send(JSON.stringify(activeRooms));
-  }
+    console.log("DEBUG: onConnect called");
+    const simpleMessage = { message: "Test message from server" };
+    connection.send(JSON.stringify(simpleMessage));
+  }  
 
   async onRequest(req: Party.Request) {
     // we only allow one instance of chatRooms party
