@@ -26,13 +26,31 @@ export const RoomList: React.FC<{ initialRooms: RoomInfo[] }> = ({
     onError: (error: Event) => {
       console.error("WebSocket DEBUG: Connection error", error);
     },
+    // onMessage(event: MessageEvent<string>) {
+    //   // setRooms(JSON.parse(event.data) as RoomInfo[]);
+    //   console.log("WebSocket DEBUG: Message received", event);
+    //   const parsedData = JSON.parse(event.data) as RoomInfo[];
+    //   console.log("WebSocket DEBUG: Message received", parsedData);
+    //   setRooms(parsedData);
+    // },
+
     onMessage(event: MessageEvent<string>) {
-      // setRooms(JSON.parse(event.data) as RoomInfo[]);
-      console.log("WebSocket DEBUG: Message received", event);
-      const parsedData = JSON.parse(event.data) as RoomInfo[];
-      console.log("WebSocket DEBUG: Message received", parsedData);
-      setRooms(parsedData);
-    },
+      try {
+        console.log("WebSocket DEBUG: Message received", event);
+        const parsedData = JSON.parse(event.data);
+        console.log("WebSocket DEBUG: Parsed data", parsedData);
+        // Ensure that parsedData is what you expect before calling setRooms
+        if (Array.isArray(parsedData)) {
+          setRooms(parsedData as RoomInfo[]);
+        } else {
+          console.error("Unexpected data format received", parsedData);
+        }
+      } catch (error) {
+        console.error("Error parsing WebSocket message", error);
+      }
+    }
+    
+
   });
 
   return (
