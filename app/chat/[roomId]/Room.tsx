@@ -9,16 +9,29 @@ import Link from "next/link";
 import RoomMessage from "./components/RoomMessage";
 import ConnectionStatus from "@/app/components/ConnectionStatus";
 
-const identify = async (socket: PartySocket) => {
-  // the ./auth route will authenticate the connection to the partykit room
-  const url = `${window.location.pathname}/auth?_pk=${socket._pk}`;
-  const req = await fetch(url, { method: "POST" });
+// const identify = async (socket: PartySocket) => {
+//   // the ./auth route will authenticate the connection to the partykit room
+//   const url = `${window.location.pathname}/auth?_pk=${socket._pk}`;
+//   const req = await fetch(url, { method: "POST" });
 
-  if (!req.ok) {
-    const res = await req.text();
-    console.error("Failed to authenticate connection to PartyKit room", res);
+//   if (!req.ok) {
+//     const res = await req.text();
+//     console.error("Failed to authenticate connection to PartyKit room", res);
+//   }
+// };
+
+const identify = async (socket: PartySocket) => {
+  const url = `${window.location.pathname}/auth?_pk=${socket._pk}`;
+  try {
+    const req = await fetch(url, { method: "POST" });
+    const res = await req.text(); // Capture the response text
+    console.log("Authentication response:", res); // Log the response
+    if (!req.ok) throw new Error(res);
+  } catch (error) {
+    console.error("Failed to authenticate connection to PartyKit room", error);
   }
 };
+
 
 export const Room: React.FC<{
   room: string;
@@ -35,26 +48,56 @@ export const Room: React.FC<{
     host,
     party,
     room,
+    // onOpen(e) {
+    //   // identify user upon connection
+    //   if (session.status === "authenticated" && e.target) {
+    //     identify(e.target as PartySocket);
+    //     if (session?.data?.user) setUser(session.data.user as User);
+    //   }
+    // },
     onOpen(e) {
-      // identify user upon connection
+      console.log("DEBUG WebSocket connection opened:", e);
       if (session.status === "authenticated" && e.target) {
-        identify(e.target as PartySocket);
+        identify(e.target as PartySocket).then(() => {
+          console.log("DEBUG Identify promise resolved");
+        });
         if (session?.data?.user) setUser(session.data.user as User);
       }
     },
+    // onMessage(event: MessageEvent<string>) {
+    //   const message = JSON.parse(event.data) as ChatMessage;
+    //   // upon connection, the server will send all messages in the room
+    //   if (message.type === "sync") setMessages(message.messages);
+    //   // after that, the server will send updates as they arrive
+    //   if (message.type === "new") setMessages((prev) => [...prev, message]);
+    //   if (message.type === "clear") setMessages([]);
+    //   if (message.type === "edit") {
+    //     setMessages((prev) =>
+    //       prev.map((m) => (m.id === message.id ? message : m))
+    //     );
+    //   }
+    //   scrollToBottom();
+    // },
     onMessage(event: MessageEvent<string>) {
-      const message = JSON.parse(event.data) as ChatMessage;
-      // upon connection, the server will send all messages in the room
-      if (message.type === "sync") setMessages(message.messages);
-      // after that, the server will send updates as they arrive
-      if (message.type === "new") setMessages((prev) => [...prev, message]);
-      if (message.type === "clear") setMessages([]);
-      if (message.type === "edit") {
-        setMessages((prev) =>
-          prev.map((m) => (m.id === message.id ? message : m))
-        );
+      console.log("DEBUG WebSocket message event:", event);
+      try {
+        const message = JSON.parse(event.data);
+        console.log("DEBUG Parsed WebSocket message:", message);
+        // ... (rest of the existing message handling code)
+        // upon connection, the server will send all messages in the room
+        if (message.type === "sync") setMessages(message.messages);
+        // after that, the server will send updates as they arrive
+        if (message.type === "new") setMessages((prev) => [...prev, message]);
+        if (message.type === "clear") setMessages([]);
+        if (message.type === "edit") {
+          setMessages((prev) =>
+            prev.map((m) => (m.id === message.id ? message : m))
+          );
+        }
+        scrollToBottom();
+      } catch (error) {
+        console.error("DEBUG Error parsing WebSocket message:", error);
       }
-      scrollToBottom();
     },
   });
 
