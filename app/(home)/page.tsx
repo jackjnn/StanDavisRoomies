@@ -9,7 +9,7 @@ export default function Home() {
 
   return (
     <div className="w-full flex flex-col gap-8">
-      <section className="bg-yellow-100 w-full p-2 rounded flex justify-center items-center text-xl">
+      <section style={{ backgroundColor: "#C0E1E1" }} className="w-full p-2 rounded flex justify-center items-center text-xl">
         <p>
           <strong>{count}</strong> potential roommate{count != 1 ? "s" : ""} online! 🥳
         </p>
