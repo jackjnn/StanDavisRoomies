@@ -44,30 +44,30 @@ export default class ChatRoomsServer implements Party.Server {
   };
 
   constructor(public party: Party.Party) {
-    console.log("DEBUG: ChatRoomsServer started");
+    // console.log("DEBUG: ChatRoomsServer started");
+  }
+
+  async onConnect(connection: Party.Connection) {
+    // when a websocket connection is established, send them a list of rooms
+    connection.send(JSON.stringify(await this.getActiveRooms()));
+    // console.log("DEBUG: onConnect called, getting active rooms...");
+    // const activeRooms = await this.getActiveRooms();
+    // console.log("DEBUG Sending active rooms data:", activeRooms);
+    // connection.send(JSON.stringify(activeRooms));
   }
 
   // async onConnect(connection: Party.Connection) {
-  //   // when a websocket connection is established, send them a list of rooms
-  //   // connection.send(JSON.stringify(await this.getActiveRooms()));
-  //   console.log("DEBUG: onConnect called, getting active rooms...");
-  //   const activeRooms = await this.getActiveRooms();
-  //   console.log("DEBUG Sending active rooms data:", activeRooms);
-  //   connection.send(JSON.stringify(activeRooms));
+  //   try {
+  //     console.log("DEBUG: onConnect called");
+  //     const rooms = await this.getActiveRooms();
+  //     console.log("DEBUG: Rooms data to be sent", rooms);
+  //     console.log("DEBUG: Rooms data to be sent", JSON.stringify(rooms));
+  //     connection.send(JSON.stringify(rooms));
+  //     console.log("DEBUG: Rooms data sent");
+  //   } catch (error) {
+  //     console.error("DEBUG: Error in onConnect method", error);
+  //   }
   // }
-
-  async onConnect(connection: Party.Connection) {
-    try {
-      console.log("DEBUG: onConnect called");
-      const rooms = await this.getActiveRooms();
-      console.log("DEBUG: Rooms data to be sent", rooms);
-      console.log("DEBUG: Rooms data to be sent", JSON.stringify(rooms));
-      connection.send(JSON.stringify(rooms));
-      console.log("DEBUG: Rooms data sent");
-    } catch (error) {
-      console.error("DEBUG: Error in onConnect method", error);
-    }
-  }
   
 
   async onRequest(req: Party.Request) {
@@ -118,7 +118,7 @@ export default class ChatRoomsServer implements Party.Server {
       | RoomInfoUpdateRequest
       | RoomDeleteRequest;
 
-    console.log("DEBUG Before update:", await this.getActiveRooms());
+    // console.log("DEBUG Before update:", await this.getActiveRooms());
 
     if (update.action === "delete") {
       await this.party.storage.delete(update.id);
@@ -160,7 +160,7 @@ export default class ChatRoomsServer implements Party.Server {
 
     await this.party.storage.put(update.id, info);
 
-    console.log("DEBUG After update:", await this.getActiveRooms());
+    // console.log("DEBUG After update:", await this.getActiveRooms());
 
     return this.getActiveRooms();
   }
