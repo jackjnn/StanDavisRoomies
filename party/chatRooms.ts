@@ -97,10 +97,10 @@ export default class ChatRoomsServer implements Party.Server {
     return notFound();
   }
   /** Fetches list of active rooms */
-  // async getActiveRooms(): Promise<RoomInfo[]> {
-  //   const rooms = await this.party.storage.list<RoomInfo>();
-  //   return [...rooms.values()];
-  // }
+  async getActiveRooms(): Promise<RoomInfo[]> {
+    const rooms = await this.party.storage.list<RoomInfo>();
+    return [...rooms.values()];
+  }
 
   /** Fetches list of active rooms */
   // async getActiveRooms(): Promise<RoomInfo[]> {
@@ -116,40 +116,40 @@ export default class ChatRoomsServer implements Party.Server {
   // }
 
   /** Fetches list of active rooms */
-  async getActiveRooms(roomId?: string): Promise<RoomInfo[]> {
-    try {
-      console.log("DEBUG: getActiveRooms called with roomId:", roomId);
+  // async getActiveRooms(roomId?: string): Promise<RoomInfo[]> {
+  //   try {
+  //     console.log("DEBUG: getActiveRooms called with roomId:", roomId);
 
-      // Hardcoded list of rooms
-      const hardcodedRooms: RoomInfo[] = [
-        { id: 'Ocean View 3 Bed Apartment in Brickell', connections: 0, users: [], image: '/apa1.jpeg' },
-        { id: 'City View 3 Bed Apartment in Downtown', connections: 0, users: [], image: '/apa3.jpeg'  },
-        { id: 'City View 3 Bed Apartment in Edgewater', connections: 0, users: [], image: '/apa2.jpeg'  },
-        { id: 'City View 3 Bed Apartment in Brickell', connections: 0, users: [], image: '/apa4.jpeg'  },
-        { id: 'Ocean View 3 Bed Apartment in Miami Beach', connections: 0, users: [], image: '/apa5.jpeg'  },
-        // Add more rooms as needed
-      ];
+  //     // Hardcoded list of rooms
+  //     const hardcodedRooms: RoomInfo[] = [
+  //       { id: 'Ocean View 3 Bed Apartment in Brickell', connections: 0, users: [], image: '/apa1.jpeg' },
+  //       { id: 'City View 3 Bed Apartment in Downtown', connections: 0, users: [], image: '/apa3.jpeg'  },
+  //       { id: 'City View 3 Bed Apartment in Edgewater', connections: 0, users: [], image: '/apa2.jpeg'  },
+  //       { id: 'City View 3 Bed Apartment in Brickell', connections: 0, users: [], image: '/apa4.jpeg'  },
+  //       { id: 'Ocean View 3 Bed Apartment in Miami Beach', connections: 0, users: [], image: '/apa5.jpeg'  },
+  //       // Add more rooms as needed
+  //     ];
   
-      // If a roomId is provided, filter for that specific room
-      if (roomId) {
-        console.log("DEBUG: Encoded roomId", roomId);
-        const decodedRoomId = decodeURIComponent(roomId);
-        console.log("DEBUG: Decoded roomId", decodedRoomId);
+  //     // If a roomId is provided, filter for that specific room
+  //     if (roomId) {
+  //       console.log("DEBUG: Encoded roomId", roomId);
+  //       const decodedRoomId = decodeURIComponent(roomId);
+  //       console.log("DEBUG: Decoded roomId", decodedRoomId);
 
-        const matchingRoom = hardcodedRooms.find(room => room.id === roomId);
-        return matchingRoom ? [matchingRoom] : [];
-      }
+  //       const matchingRoom = hardcodedRooms.find(room => room.id === roomId);
+  //       return matchingRoom ? [matchingRoom] : [];
+  //     }
   
-      // If no roomId is provided, return all rooms
-      return hardcodedRooms;
+  //     // If no roomId is provided, return all rooms
+  //     return hardcodedRooms;
 
-    } catch (error) {
-      console.error("DEBUG: Error in getActiveRooms", error);
-      // Rethrow the error or handle it as needed
-      throw error;
-    }
+  //   } catch (error) {
+  //     console.error("DEBUG: Error in getActiveRooms", error);
+  //     // Rethrow the error or handle it as needed
+  //     throw error;
+  //   }
     
-  }
+  // }
 
 
   /** Updates list of active rooms with information received from chatroom */
