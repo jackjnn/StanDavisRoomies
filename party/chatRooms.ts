@@ -72,7 +72,7 @@ export default class ChatRoomsServer implements Party.Server {
 
   async onRequest(req: Party.Request) {
     console.log("DEBUG: OnRequest called and req next")
-    console.log("DEBUG: req -> ", req)
+    console.log("DEBUG: req -> ", req.url)
 
     // we only allow one instance of chatRooms party
     if (this.party.id !== SINGLETON_ROOM_ID) return notFound();
@@ -118,7 +118,7 @@ export default class ChatRoomsServer implements Party.Server {
   /** Fetches list of active rooms */
   async getActiveRooms(roomId?: string): Promise<RoomInfo[]> {
     console.log("DEBUG: getActiveRooms called with roomId:", roomId);
-    
+
     // Hardcoded list of rooms
     const hardcodedRooms: RoomInfo[] = [
       { id: 'Ocean View 3 Bed Apartment in Brickell', connections: 0, users: [], image: '/apa1.jpeg' },
@@ -128,12 +128,13 @@ export default class ChatRoomsServer implements Party.Server {
       { id: 'Ocean View 3 Bed Apartment in Miami Beach', connections: 0, users: [], image: '/apa5.jpeg'  },
       // Add more rooms as needed
     ];
-
-    const matchingRoom = hardcodedRooms.find(room => decodeURIComponent(room.id) === roomId);
-    console.log("DEBUG: matchingRoom found:", matchingRoom);
   
     // If a roomId is provided, filter for that specific room
     if (roomId) {
+      console.log("DEBUG: Encoded roomId", roomId);
+      const decodedRoomId = decodeURIComponent(roomId);
+      console.log("DEBUG: Decoded roomId", decodedRoomId);
+
       const matchingRoom = hardcodedRooms.find(room => room.id === roomId);
       return matchingRoom ? [matchingRoom] : [];
     }
