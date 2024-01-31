@@ -14,9 +14,9 @@ export default function RoomCard(props: { room: RoomInfo }) {
       <Link href={`/chat/${room.id}`}>
         <div className="rounded-lg bg-white outline outline-1 outline-stone-200 shadow hover:shadow-md">
           {/* Image will be displayed here */}
-          <div className="w-full bg-cover bg-center h-40" 
+          {/* <div className="w-full bg-cover bg-center h-40" 
             style={{ backgroundImage: `url(${room.image})` }}> 
-          </div>
+          </div> */}
           <div className="flex w-full items-start justify-between p-4 sm:p-6 space-x-4 sm:space-x-6">
             <div className="flex-1 flex items-center">
               <h3 className="font-medium">{room.id}</h3>
