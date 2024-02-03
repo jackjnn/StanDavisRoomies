@@ -57,14 +57,25 @@ export default function NewRoom() {
     // }
 
     // Create the room in the production environment
-    await fetch(`${PARTYKIT_URL}/parties/chatroom/${slug}`, {
-      method: "POST",
-    });
+    try {
+      const response = await fetch(`${PARTYKIT_URL}/parties/chatroom/${slug}`, {
+        method: "POST",
+      });
 
-    // Optionally store additional room data using the Storage API
-    // This step would involve using the storage API to save any room-related information
+      if (!response.ok) {
+        // Handle error here, for example, log the error or show an error message
+        console.error("Failed to create room:", response.statusText);
+        return;
+      }
 
-    router.push(`/chat/${slug}`);
+      // Optionally store additional room data using the Storage API
+      // This step would involve using the storage API to save any room-related information
+
+      router.push(`/chat/${slug}`);
+    } catch (error) {
+      // Handle fetch error
+      console.error("Fetch error:", error);
+    }
 
   };
 
