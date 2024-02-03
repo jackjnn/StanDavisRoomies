@@ -22,7 +22,7 @@ export default async function RoomListPage() {
   console.log("DEBUG: Logs", rooms)
 
   // Check if we are in development mode
-  const isDevelopment = process.env.NODE_ENV === 'development';
+  // const isDevelopment = process.env.NODE_ENV === 'development';
 
   return (
     <div className="w-full flex flex-col gap-6">
@@ -30,7 +30,8 @@ export default async function RoomListPage() {
       <RoomList initialRooms={rooms} />
       {/* <NewRoom slug={generateSlug(3, randomWords)} /> */}
       {/* {isDevelopment && <NewRoom slug={generateSlug(3, randomWords)} />} */}
-      {isDevelopment && <NewRoom/>}
+      {/* {isDevelopment && <NewRoom/>} */}
+      <NewRoom/>
     </div>
   );
 }
