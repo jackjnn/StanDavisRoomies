@@ -29,7 +29,8 @@ export default async function RoomListPage() {
       <h1 className="text-4xl font-medium">Pick an Apartment, Find Roommates!</h1>
       <RoomList initialRooms={rooms} />
       {/* <NewRoom slug={generateSlug(3, randomWords)} /> */}
-      {isDevelopment && <NewRoom slug={generateSlug(3, randomWords)} />}
+      {/* {isDevelopment && <NewRoom slug={generateSlug(3, randomWords)} />} */}
+      {isDevelopment && <NewRoom/>}
     </div>
   );
 }
