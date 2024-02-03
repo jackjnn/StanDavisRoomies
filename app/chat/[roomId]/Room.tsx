@@ -160,7 +160,8 @@ export const Room: React.FC<{
               You must be signed in to post messages.{" "}
               <Link
                 className="underline"
-                href={`/api/auth/signin?callbackUrl=${window.location.href}`}
+                // href={`/api/auth/signin?callbackUrl=${window.location.href}`}
+                href={`/api/auth/signin/google?callbackUrl=${encodeURIComponent(window.location.href)}`}
               >
                 Sign in
               </Link>
