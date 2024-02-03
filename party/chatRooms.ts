@@ -8,6 +8,8 @@ import { json, notFound } from "./utils/response";
  */
 export const SINGLETON_ROOM_ID = "list";
 
+const authorizedEmails = ['admin@example.com', 'jacknyange2023@gmail.com'];
+
 /** Chat room sends an update when participants join/leave */
 export type RoomInfoUpdateRequest = {
   id: string;
@@ -92,6 +94,7 @@ export default class ChatRoomsServer implements Party.Server {
 
     return notFound();
   }
+
   /** Fetches list of active rooms */
   async getActiveRooms(): Promise<RoomInfo[]> {
     const rooms = await this.party.storage.list<RoomInfo>();
