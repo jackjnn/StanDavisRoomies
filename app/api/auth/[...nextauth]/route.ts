@@ -1,22 +1,22 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import type { User } from "@/party/utils/auth";
-import GitHubProvider from "next-auth/providers/github";
+// import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
 
-const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
-const GITHUB_SECRET = process.env.GITHUB_SECRET;
+// const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
+// const GITHUB_SECRET = process.env.GITHUB_SECRET;
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
-if (!GITHUB_CLIENT_ID) {
-  throw new Error("GITHUB_CLIENT_ID not defined in environment");
-}
+// if (!GITHUB_CLIENT_ID) {
+//   throw new Error("GITHUB_CLIENT_ID not defined in environment");
+// }
 
-if (!GITHUB_SECRET) {
-  throw new Error("GITHUB_CLIENT_SECRET not defined in environment");
-}
+// if (!GITHUB_SECRET) {
+//   throw new Error("GITHUB_CLIENT_SECRET not defined in environment");
+// }
 
 if (!GOOGLE_CLIENT_ID) {
   throw new Error("GOOGLE_CLIENT_ID not defined in environment");
@@ -28,10 +28,10 @@ if (!GOOGLE_SECRET) {
 
 export const authOptions: NextAuthOptions = {
   providers: [
-    GitHubProvider({
-      clientId: GITHUB_CLIENT_ID,
-      clientSecret: GITHUB_SECRET,
-    }),
+    // GitHubProvider({
+    //   clientId: GITHUB_CLIENT_ID,
+    //   clientSecret: GITHUB_SECRET,
+    // }),
     GoogleProvider({
       clientId: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_SECRET,
