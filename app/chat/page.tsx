@@ -7,7 +7,7 @@ import NewRoom from "./components/NewRoom";
 
 const randomWords: RandomWordOptions<3> = {
   format: "kebab",
-  categories: { noun: ["animals"] },
+  categories: { noun: ["place"] },
   partsOfSpeech: ["adjective", "adjective", "noun"],
 };
 
@@ -21,11 +21,16 @@ export default async function RoomListPage() {
   const rooms = ((await res.json()) ?? []) as RoomInfo[];
   console.log("DEBUG: Logs", rooms)
 
+  // Check if we are in development mode
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
   return (
     <div className="w-full flex flex-col gap-6">
       <h1 className="text-4xl font-medium">Pick an Apartment, Find Roommates!</h1>
       <RoomList initialRooms={rooms} />
-      <NewRoom slug={generateSlug(3, randomWords)} />
+      {/* <NewRoom slug={generateSlug(3, randomWords)} /> */}
+      {isDevelopment && <NewRoom slug={generateSlug(3, randomWords)} />}
     </div>
   );
 }
+

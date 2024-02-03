@@ -26,7 +26,7 @@ export default function RoomCard(props: { room: RoomInfo }) {
               <span className="bg-stone-100 text-stone-600 rounded-full px-2 py-1">
                 {room.connections}
                 {/* <span> interested {room.connections !== 1 && "🥳"}</span> */}
-                <span> want{room.connections == 1 && "s"} to chat {room.connections >= 1 && "🥳"} 🥹</span>
+                <span> want{room.connections == 1 && "s"} to chat {room.connections >= 1 && "🥳"} {room.connections < 1 && "🥹"}</span>
               </span>
             </span>
           </div>
