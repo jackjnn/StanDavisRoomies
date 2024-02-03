@@ -56,7 +56,7 @@ export const authOptions: NextAuthOptions = {
           ...session.user,
           // username: token.username,
           // Adjust according to the information provided by Google
-          username: token.email, // or any other identifier you prefer
+          username: token.name, // or any other identifier you prefer
         } as User,
       };
     },
