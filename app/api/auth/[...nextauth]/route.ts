@@ -66,11 +66,11 @@ export const authOptions: NextAuthOptions = {
       //   profile && "login" in profile ? profile.login : profile?.email;
 
       // Adjust as necessary based on Google profile information
-      const email = profile?.email;
+      const name = profile?.name;
 
       if (trigger === "signIn") {
         // return { ...token, username };
-        return { ...token, email };
+        return { ...token, name };
       }
 
       return token;
