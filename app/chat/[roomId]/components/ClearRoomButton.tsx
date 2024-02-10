@@ -2,8 +2,19 @@
 
 import { useState } from "react";
 import { PARTYKIT_URL } from "@/app/env";
+import { useSession } from "next-auth/react";
 
 export default function ClearRoomButton(props: { roomId: string }) {
+  const { data: session } = useSession();
+  const authorizedEmails = ['admin@example.com', 'jacknyange2023@gmail.com'];
+  // Use type assertion to ensure that session.user is not undefined
+  const userEmail = session?.user?.email as string;
+  // Check if the signed-in user's email is in the list of authorized emails
+  const isAuthorized = session && authorizedEmails.includes(userEmail);
+  if (!isAuthorized) {
+    return null;
+  }
+
   const [showConfirmation, setShowConfirmation] = useState(false);
   const clearRoom = () => {
     fetch(`${PARTYKIT_URL}/parties/chatroom/${props.roomId}`, {

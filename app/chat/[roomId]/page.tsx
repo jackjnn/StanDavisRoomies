@@ -32,6 +32,11 @@ export default async function ChatRoomPage({
           &lt;- All Rooms
         </Link>
         <ClearRoomButton roomId={params.roomId} />
+        <Link href={`/chat/${params.roomId}/info`} passHref>
+          <button className="outline outline-1 outline-stone-400 rounded-full px-3 py-1 text-stone-400 text-sm hover:bg-stone-200 hover:text-stone-500 whitespace-nowrap">
+            Apartment Info
+          </button>
+        </Link>
       </div>
       {room ? (
         <>

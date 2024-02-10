@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { PARTYKIT_URL } from "@/app/env";
 import { useSession } from "next-auth/react";
 
@@ -17,13 +17,13 @@ export default function NewRoom() {
     const slug = roomName.toLowerCase().replace(/\s+/g, '-');
     
     // Post the new room to your PartyKit server
+    // Use POST with JSON body to send room details
     try {
       await fetch(`${PARTYKIT_URL}/parties/chatroom/${slug}`, {
         method: "POST",
       });
       router.push(`/chat/${slug}`);
     } catch (error) {
-      // Handle fetch error
       console.error("Failed to create room:", error);
     }
   };

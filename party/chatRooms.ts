@@ -1,6 +1,5 @@
 import type * as Party from "partykit/server";
 import { User } from "./utils/auth";
-import { json, notFound } from "./utils/response";
 
 /**
  * The chatRooms party's purpose is to keep track of all chat rooms, so we want
@@ -8,7 +7,7 @@ import { json, notFound } from "./utils/response";
  */
 export const SINGLETON_ROOM_ID = "list";
 
-const authorizedEmails = ['admin@example.com', 'jacknyange2023@gmail.com'];
+// const authorizedEmails = ['admin@example.com', 'jacknyange2023@gmail.com'];
 
 /** Chat room sends an update when participants join/leave */
 export type RoomInfoUpdateRequest = {
@@ -28,7 +27,7 @@ export type RoomDeleteRequest = {
 export type RoomInfo = {
   id: string;
   connections: number;
-  image?: string;
+  imageUrl?: string;
   users: {
     username: string;
     joinedAt: string;
@@ -37,6 +36,11 @@ export type RoomInfo = {
     image?: string;
   }[];
 };
+
+interface RoomCreationRequestBody {
+  id: string;
+  imageUrl: string;
+}
 
 export default class ChatRoomsServer implements Party.Server {
   options: Party.ServerOptions = {
@@ -54,51 +58,89 @@ export default class ChatRoomsServer implements Party.Server {
     connection.send(JSON.stringify(await this.getActiveRooms()));
   }
 
-  // async onConnect(connection: Party.Connection) {
-  //   try {
-  //     console.log("DEBUG: onConnect called");
-  //     const rooms = await this.getActiveRooms();
-  //     console.log("DEBUG: Rooms data to be sent", rooms);
-  //     console.log("DEBUG: Rooms data to be sent", JSON.stringify(rooms));
-  //     connection.send(JSON.stringify(rooms));
-  //     console.log("DEBUG: Rooms data sent");
-  //   } catch (error) {
-  //     console.error("DEBUG: Error in onConnect method", error);
-  //   }
-  // }
-  
-
   async onRequest(req: Party.Request) {
     console.log("DEBUG: OnRequest called and req next")
     console.log("DEBUG: req -> ", req.url)
 
+    // Set CORS headers
+    const headers = {
+      'Access-Control-Allow-Origin': 'http://localhost:3000', // Specify your domain
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    };
+
+    // Handle preflight requests
+    if (req.method === 'OPTIONS') {
+      return new Response(null, { headers, status: 204 });
+    }
+
     // we only allow one instance of chatRooms party
-    if (this.party.id !== SINGLETON_ROOM_ID) return notFound();
+    // if (this.party.id !== SINGLETON_ROOM_ID) return notFound();
+
+    // we only allow one instance of chatRooms party
+    if (this.party.id !== SINGLETON_ROOM_ID) {
+      return new Response(null, { headers, status: 404 });
+    }
 
     // Clients fetch list of rooms for server rendering pages via HTTP GET
-    if (req.method === "GET") return json(await this.getActiveRooms());
-
-    // Chatrooms report their connections via HTTP POST
-    // update room info and notify all connected clients
-    if (req.method === "POST") {
-      const roomList = await this.updateRoomInfo(req);
-      this.party.broadcast(JSON.stringify(roomList));
-      return json(roomList);
+    // if (req.method === "GET") return json(await this.getActiveRooms());
+    // Clients fetch list of rooms for server rendering pages via HTTP GET
+    if (req.method === "GET") {
+      const rooms = await this.getActiveRooms();
+      return new Response(JSON.stringify(rooms), { headers, status: 200 });
     }
+
+    // Inside your existing onRequest method
+    if (req.method === "POST") {
+      // const body = await req.json(); // Assuming you're sending JSON data
+      const body = await req.json() as RoomCreationRequestBody;
+
+      // Retrieve or create new room info
+      let roomInfo = await this.party.storage.get<RoomInfo>(body.id) || {
+        id: body.id,
+        connections: 0,
+        users: [],
+        imageUrl: body.imageUrl
+      };
+
+      // If room exists but doesn't have an imageUrl, update it
+      if (!roomInfo.imageUrl) {
+        roomInfo.imageUrl = body.imageUrl;
+      }
+
+      // Save the updated roomInfo
+      await this.party.storage.put(body.id, roomInfo);
+
+      // Broadcast the updated list of rooms
+      const updatedRooms = await this.getActiveRooms();
+      this.party.broadcast(JSON.stringify(updatedRooms));
+  
+      // Example of including CORS headers in the response
+      return new Response(JSON.stringify({ message: "Room created successfully", roomInfo }), { headers, status: 200 });
+    }
+
 
     // admin api for clearing all rooms (not used in UI)
     if (req.method === "DELETE") {
       await this.party.storage.deleteAll();
-      return json({ message: "All room history cleared" });
+      // return json({ message: "All room history cleared" });
+      return new Response(JSON.stringify({ message: "All room history cleared" }), { headers, status: 200 });
     }
 
-    return notFound();
+    // return notFound();
+    // If none of the above HTTP methods match, return a not found response
+    return new Response("Method not allowed", { headers, status: 405 });
   }
 
   /** Fetches list of active rooms */
   async getActiveRooms(): Promise<RoomInfo[]> {
-    const rooms = await this.party.storage.list<RoomInfo>();
-    return [...rooms.values()];
+    const roomsMap = await this.party.storage.list<RoomInfo>();
+    // Convert the Map values to an array, then map over the array
+    const rooms = Array.from(roomsMap.values()).map(room => ({
+      ...room,
+      imageUrl: room.imageUrl || 'apa3.jpeg'
+    }));
+    return rooms;
   }
 
   /** Fetches list of active rooms */
@@ -165,5 +207,5 @@ export default class ChatRoomsServer implements Party.Server {
     // console.log("DEBUG After update:", await this.getActiveRooms());
 
     return this.getActiveRooms();
-  }
+  } 
 }
