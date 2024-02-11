@@ -28,6 +28,8 @@ export type RoomInfo = {
   id: string;
   connections: number;
   imageUrl?: string;
+  address?: string; 
+  description?: string; 
   users: {
     username: string;
     joinedAt: string;
@@ -92,15 +94,17 @@ export default class ChatRoomsServer implements Party.Server {
 
     // Inside your existing onRequest method
     if (req.method === "POST") {
-      // const body = await req.json(); // Assuming you're sending JSON data
-      const body = await req.json() as RoomCreationRequestBody;
+      // const body = await req.json() as RoomCreationRequestBody;
+      const body = await req.json() as RoomCreationRequestBody & { address?: string; description?: string; };
 
       // Retrieve or create new room info
       let roomInfo = await this.party.storage.get<RoomInfo>(body.id) || {
         id: body.id,
         connections: 0,
         users: [],
-        imageUrl: body.imageUrl
+        imageUrl: body.imageUrl,
+        address: body.address, // Handle address
+        description: body.description, // Handle description
       };
 
       // If room exists but doesn't have an imageUrl, update it

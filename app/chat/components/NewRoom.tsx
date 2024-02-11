@@ -9,18 +9,44 @@ export default function NewRoom() {
   const { data: session } = useSession();
   const [roomName, setRoomName] = useState("");
   const router = useRouter();
+  const [address, setAddress] = useState("");
+  const [description, setDescription] = useState("");
+
+  // const handleSubmit = async (e: { preventDefault: () => void; }) => {
+  //   e.preventDefault();
+
+  //   // Use the roomName as the slug or create a slug from the roomName
+  //   const slug = roomName.toLowerCase().replace(/\s+/g, '-');
+    
+  //   // Post the new room to your PartyKit server
+  //   // Use POST with JSON body to send room details
+  //   try {
+  //     await fetch(`${PARTYKIT_URL}/parties/chatroom/${slug}`, {
+  //       method: "POST",
+  //     });
+  //     router.push(`/chat/${slug}`);
+  //   } catch (error) {
+  //     console.error("Failed to create room:", error);
+  //   }
+  // };
 
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-
-    // Use the roomName as the slug or create a slug from the roomName
     const slug = roomName.toLowerCase().replace(/\s+/g, '-');
-    
-    // Post the new room to your PartyKit server
-    // Use POST with JSON body to send room details
+    const roomData = {
+      name: roomName,
+      address: address,
+      description: description,
+    };
+  
     try {
-      await fetch(`${PARTYKIT_URL}/parties/chatroom/${slug}`, {
+      // await fetch(`${PARTYKIT_URL}/parties/chatroom/${slug}`, {
+      await fetch(`/api/proxy/chatroom/${slug}`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(roomData),
       });
       router.push(`/chat/${slug}`);
     } catch (error) {
@@ -46,6 +72,20 @@ export default function NewRoom() {
           value={roomName}
           onChange={(e) => setRoomName(e.target.value)}
           placeholder="Room Name"
+          className="border p-2"
+        />
+        <input
+          type="text"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          placeholder="Address"
+          className="border p-2"
+        />
+        <input
+          type="text"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Description"
           className="border p-2"
         />
         <button type="submit" className="p-2 bg-blue-500 text-white">

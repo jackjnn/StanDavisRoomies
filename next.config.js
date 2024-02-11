@@ -6,6 +6,9 @@ const PARTYKIT_PROTOCOL =
     : "https";
 const PARTYKIT_URL = `${PARTYKIT_PROTOCOL}://${PARTYKIT_HOST}`;
 
+console.log(`NEXT_PUBLIC_PARTYKIT_HOST: ${process.env.NEXT_PUBLIC_PARTYKIT_HOST}`);
+console.log(`PARTYKIT_URL: ${PARTYKIT_URL}`);
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -22,4 +25,6 @@ const nextConfig = {
   ],
 };
 
-module.exports = nextConfig;
+
+module.exports = nextConfig
+
